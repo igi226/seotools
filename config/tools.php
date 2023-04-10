@@ -146,6 +146,14 @@ return [
         'route' => 'tools.uuid_generator',
         'category' => 'developer'
     ],
+    //pradipta
+    [
+        'icon' => 'passwordEncryption',
+        'title' => 'Password Encryption',
+        'route' => 'tools.passwordEncryption',
+        'category' => 'developer'
+    ],
+    //
 
     [
         'icon' => 'notes',
@@ -240,4 +248,13 @@ return [
         'route' => 'tools.onlineTextEditor',
         'category' => 'content'
     ],
+
+    [
+        'icon' => 'calculator',
+        'title' => 'Calculator',
+        'route' => 'tools.onlineCalculator',
+        'category' => 'content'
+    ],
+
+    
 ];

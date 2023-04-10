@@ -47,6 +47,7 @@ use hexydec\html\htmldoc;
 use hexydec\jslite\jslite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 use Iodev\Whois\Factory as Whois;
 use Spatie\SslCertificate\SslCertificate;
 use WhichBrowser\Parser as UserAgent;
@@ -1299,21 +1300,77 @@ class ToolController extends Controller
         return response()->download(public_path('result.pdf'), 'result.pdf');
     }
 
-    public function upperToLowerCase() {
+    public function upperToLowerCase()
+    {
         return view('tools.container', ['view' => 'upperToLowerCase']);
     }
 
-    public function processUpperToLowerCase( Request $request ) {
+    public function processUpperToLowerCase(Request $request)
+    {
         $result = strtolower($request->input('content'));
 
         return view('tools.container', ['view' => 'upperToLowerCase', 'content' => $request->input('content'), 'result' => $result]);
     }
 
-    public function onlineTextEditor() {
+    public function onlineTextEditor()
+    {
         return view('tools.container', ['view' => 'onlineTextEditor']);
     }
-    
-    public function processOnlineTextEditor( Request $request ) {
-        return view('tools.container', ['view' => 'onlineTextEditor', 'content' => $request->input('content'), 'result' => $request->input('content')]);  
+
+    public function processOnlineTextEditor(Request $request)
+    {
+        return view('tools.container', ['view' => 'onlineTextEditor', 'content' => $request->input('content'), 'result' => $request->input('content')]);
+    }
+
+    public function onlineCalculator()
+    {
+        return view('tools.container', ['view' => 'onlineCalculator']);
+    }
+
+    public function processOnlineCalculator(Request $request)
+    {
+        $request->validate([
+            'first_number' => 'required|numeric',
+            'operation' => 'required',
+            'second_number' => 'required|numeric',
+        ]);
+        switch ($request->operation) {
+            case "+":
+                $result = $request->first_number + $request->second_number;
+                break;
+            case "-":
+                $result = $request->first_number - $request->second_number;
+                break;
+            case "*":
+                $result = $request->first_number * $request->second_number;
+                break;
+            case "/":
+                $result = $request->first_number / $request->second_number;
+                break;
+            default:
+            $result =  "Please try again proper way";
+        }
+        return view('tools.container', ['view' => 'onlineCalculator', 'first_number' => $request->input('first_number'), 'operation' => $request->input('operation'), 'second_number' => $request->input('second_number'), 'result' => $request->input('content')]);
+    }
+
+
+
+    public function passwordEncryption() {
+        return view('tools.container', ['view' => 'passwordEncryption']);
+    }
+
+    public function processPasswordEncryption( Request $request) {
+        $request->validate([
+            'content' => 'required|string'
+        ]);
+        $result['given_password'] = $request->content;
+        $result['md5'] = md5($request->content); 
+        $result['sh1'] = sha1($request->content); 
+        $result['hash'] = Hash::make($request->content);
+        $result['uuencode'] = convert_uuencode($request->content); 
+        $result['base64_encode'] = base64_encode($request->content); 
+
+        return view('tools.container', ['view' => 'passwordEncryption',  'content' => $request->input('content'), 'result' => $result]);
+
     }
 }

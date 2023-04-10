@@ -192,6 +192,12 @@ Route::prefix('tools')->middleware('tools')->group(function () {
 
     Route::get('/online-text-editor', 'ToolController@onlineTextEditor')->name('tools.onlineTextEditor');
     Route::post('/online-text-editor-process', 'ToolController@processOnlineTextEditor')->name('tools.processOnlineTextEditor');
+
+    Route::get('/online-calculator', 'ToolController@onlineCalculator')->name('tools.onlineCalculator');
+    Route::post('/online-calculator-process', 'ToolController@processOnlineCalculator')->name('tools.processOnlineCalculator');
+
+    Route::get('/password-encryption', 'ToolController@passwordEncryption')->name('tools.passwordEncryption');
+    Route::post('/password-encryption-process', 'ToolController@processPasswordEncryption')->name('tools.processPasswordEncryption');
 });
 
 // Account routes
